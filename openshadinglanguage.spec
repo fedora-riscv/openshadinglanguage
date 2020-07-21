@@ -18,7 +18,8 @@ BuildRequires:  cmake
 BuildRequires:	flex
 BuildRequires:  gcc-c++
 BuildRequires:  llvm-devel
-BuildRequires:	meson
+#BuildRequires:	meson
+BuildRequires:  partio-devel
 BuildRequires:  pkgconfig(IlmBase)
 BuildRequires:  pkgconfig(OpenImageIO) >= 2.0
 %if 0%{?fedora} < 32
@@ -136,8 +137,7 @@ sed -i -e "s/COMMAND python/COMMAND python3/" $(find . -iname CMakeLists.txt)
    -DOSL_BUILD_MATERIALX:BOOL=ON \
    -DOSL_SHADER_INSTALL_DIR:PATH=%{_datadir}/%{name}/shaders/ \
    -DSTOP_ON_WARNING=OFF \
-   -DUSE_BOOST_WAVE=ON \
-   -DUSE_PARTIO=OFF 
+   -DUSE_BOOST_WAVE=ON 
    
 %make_build -C build
 
@@ -191,6 +191,9 @@ mv %{buildroot}%{_libdir}/osl.imageio.so %{buildroot}%{_libdir}/OpenImageIO-%{oi
 %{_libdir}/pkgconfig/
 
 %changelog
+* Mon Jul 20 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 1.11.6.0-3
+- Enable partio
+
 * Fri Jul 17 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 1.11.6.0-2
 - Fix spec based on review (#1856589)
 
