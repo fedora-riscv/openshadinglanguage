@@ -32,6 +32,8 @@ BuildRequires:	pkgconfig(Qt5)
 # Compression
 BuildRequires:  pkgconfig(zlib)
 
+ExcludeArch:    i686
+
 %description
 Open Shading Language (OSL) is a small but rich language for programmable
 shading in advanced renderers and other applications, ideal for describing
