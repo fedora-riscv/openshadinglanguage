@@ -35,7 +35,7 @@ BuildRequires:  pkgconfig(zlib)
 
 # Build failed on armhfp
 # Exclude x86 architecture as well
-ExcludeArch:    i686 armhfp
+ExcludeArch:    i686 armv7hl
 
 %description
 Open Shading Language (OSL) is a small but rich language for programmable
