@@ -24,6 +24,7 @@ BuildRequires:  pkgconfig(IlmBase)
 BuildRequires:  pkgconfig(OpenImageIO) >= 2.0
 %if 0%{?fedora} < 32
 BuildRequires:  pugixml-devel
+BuildRequires:  pkgconfig(OpenEXR)
 %else
 BuildRequires:  pkgconfig(pugixml)
 %endif
