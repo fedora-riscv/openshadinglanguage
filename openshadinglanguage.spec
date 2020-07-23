@@ -33,7 +33,8 @@ BuildRequires:	pkgconfig(Qt5)
 # Compression
 BuildRequires:  pkgconfig(zlib)
 
-ExcludeArch:    i686
+# Build failed on armhfp
+ExcludeArch:    armhfp
 
 %description
 Open Shading Language (OSL) is a small but rich language for programmable
