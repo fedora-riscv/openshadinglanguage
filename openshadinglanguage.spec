@@ -4,7 +4,7 @@
 
 Name:           openshadinglanguage
 Version:        1.11.6.0
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Advanced shading language for production GI renderers
 
 License:        BSD
@@ -199,6 +199,9 @@ mv %{buildroot}%{_libdir}/osl.imageio.so %{buildroot}%{_libdir}/OpenImageIO-%{oi
 %{_libdir}/pkgconfig/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11.6.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jul 22 2020 Luya Tshimbalanga <luya@fedoraproject,org> - 1.11.6.0-4
 - Set library condition for Fedora 31 
 
