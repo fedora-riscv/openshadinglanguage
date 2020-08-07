@@ -1,10 +1,13 @@
 # Required for the plugin directory name, see https://github.com/OpenImageIO/oiio/issues/2583
 %global oiio_major_minor_ver %(rpm -q --queryformat='%%{version}' OpenImageIO-devel | cut -d . -f 1-2)
-%global prerelease -dev
+%global prerelease -beta1
+
+# Force out of source tree build
+%undefine __cmake_in_source_build
 
 Name:           openshadinglanguage
-Version:        1.11.6.0
-Release:        6%{?dist}
+Version:        1.11.7.0
+Release:        0.1%{?dist}
 Summary:        Advanced shading language for production GI renderers
 
 License:        BSD
@@ -18,7 +21,6 @@ BuildRequires:  cmake
 BuildRequires:	flex
 BuildRequires:  gcc-c++
 BuildRequires:  llvm-devel
-#BuildRequires:	meson
 BuildRequires:  partio-devel
 BuildRequires:  pkgconfig(IlmBase)
 BuildRequires:  pkgconfig(OpenImageIO) >= 2.0
@@ -28,7 +30,7 @@ BuildRequires:  pkgconfig(OpenEXR)
 %else
 BuildRequires:  pkgconfig(pugixml)
 %endif
-BuildRequires:	pkgconfig(python3)
+
 BuildRequires:	pkgconfig(Qt5)
 # Compression
 BuildRequires:  pkgconfig(zlib)
@@ -126,6 +128,15 @@ Requires:       %{name}-libs%{?_isa} = %{version}-%{release}
 The %{name}-devel package contains libraries and header files for
 developing applications that use %{name}.
 
+%package        -n python3-%{name}
+Summary:        %{summary}
+License:        BSD
+BuildRequires:  cmake(pybind11)
+BuildRequires:	pkgconfig(python3)
+
+%description    -n python3-%{name}
+%{_description}
+
 %prep
 %autosetup -n OpenShadingLanguage-Release-%{version}%{?prerelease}
 # Use python3 binary instead of unversioned python
@@ -133,7 +144,6 @@ sed -i -e "s/COMMAND python/COMMAND python3/" $(find . -iname CMakeLists.txt)
 
 %build
 %cmake \
-   -B build \
    -DCMAKE_CXX_STANDARD=14 \
    -DCMAKE_INSTALL_DOCDIR:PATH=%{_docdir}/%{name} \
    -DCMAKE_SKIP_RPATH=TRUE \
@@ -141,13 +151,16 @@ sed -i -e "s/COMMAND python/COMMAND python3/" $(find . -iname CMakeLists.txt)
    -DENABLERTTI=ON \
    -DOSL_BUILD_MATERIALX:BOOL=ON \
    -DOSL_SHADER_INSTALL_DIR:PATH=%{_datadir}/%{name}/shaders/ \
+   -Dpartio_DIR=%{_libdir} \
+   -DPYTHON_INCLUDE_PATH=%{_includedir} \
+   -DPYTHON_VERSION=%{python3_version} \
    -DSTOP_ON_WARNING=OFF \
    -DUSE_BOOST_WAVE=ON 
    
-%make_build -C build
+%cmake_build
 
 %install
-%make_install -C build
+%cmake_install
 
 # Move the OpenImageIO plugin into its default search path
 mkdir %{buildroot}%{_libdir}/OpenImageIO-%{oiio_major_minor_ver}
@@ -198,7 +211,13 @@ mv %{buildroot}%{_libdir}/osl.imageio.so %{buildroot}%{_libdir}/OpenImageIO-%{oi
 %{_libdir}/cmake/
 %{_libdir}/pkgconfig/
 
+%files -n python3-%{name}
+%{python3_sitearch}/oslquery.so
+
 %changelog
+* Thu Aug 06 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 1.11.7.0-0.1
+- Update to 1.11.7.0-beta1
+
 * Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11.6.0-6
 - Second attempt - Rebuilt for
   https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
@@ -206,7 +225,7 @@ mv %{buildroot}%{_libdir}/osl.imageio.so %{buildroot}%{_libdir}/OpenImageIO-%{oi
 * Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11.6.0-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
 
-* Wed Jul 22 2020 Luya Tshimbalanga <luya@fedoraproject,org> - 1.11.6.0-4
+* Wed Jul 22 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 1.11.6.0-4
 - Set library condition for Fedora 31 
 
 * Mon Jul 20 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 1.11.6.0-3
