@@ -14,11 +14,11 @@ License:        BSD
 URL:            https://github.com/imageworks/OpenShadingLanguage
 Source:         %{url}/archive/Release-%{version}%{?prerelease}.tar.gz
 
-BuildRequires:	bison
+BuildRequires:  bison
 BuildRequires:  boost-devel >= 1.55
 BuildRequires:  clang-devel
 BuildRequires:  cmake
-BuildRequires:	flex
+BuildRequires:  flex
 BuildRequires:  gcc-c++
 BuildRequires:  llvm-devel
 BuildRequires:  partio-devel
@@ -31,11 +31,10 @@ BuildRequires:  pkgconfig(OpenEXR)
 BuildRequires:  pkgconfig(pugixml)
 %endif
 
-BuildRequires:	pkgconfig(Qt5)
+BuildRequires:  pkgconfig(Qt5)
 BuildRequires:  pkgconfig(zlib)
 
-# Build failed on armhfp
-# Exclude x86 architecture as well
+# 64 bit only
 ExcludeArch:    i686 armv7hl
 
 %description
@@ -131,7 +130,7 @@ developing applications that use %{name}.
 Summary:        %{summary}
 License:        BSD
 BuildRequires:  cmake(pybind11)
-BuildRequires:	pkgconfig(python3)
+BuildRequires:    pkgconfig(python3)
 
 %description    -n python3-%{name}
 %{_description}
