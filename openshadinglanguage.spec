@@ -1,12 +1,12 @@
 # Required for the plugin directory name, see https://github.com/OpenImageIO/oiio/issues/2583
 %global oiio_major_minor_ver %(rpm -q --queryformat='%%{version}' OpenImageIO-devel | cut -d . -f 1-2)
-%global prerelease -beta1
+%global prerelease -RC1
 
 # Force out of source tree build
 %undefine __cmake_in_source_build
 
 Name:           openshadinglanguage
-Version:        1.11.7.0
+Version:        1.11.7.1
 Release:        0.1%{?dist}
 Summary:        Advanced shading language for production GI renderers
 
@@ -32,7 +32,6 @@ BuildRequires:  pkgconfig(pugixml)
 %endif
 
 BuildRequires:	pkgconfig(Qt5)
-# Compression
 BuildRequires:  pkgconfig(zlib)
 
 # Build failed on armhfp
@@ -215,6 +214,9 @@ mv %{buildroot}%{_libdir}/osl.imageio.so %{buildroot}%{_libdir}/OpenImageIO-%{oi
 %{python3_sitearch}/oslquery.so
 
 %changelog
+* Fri Aug 21 2020 Simone Caronni <negativo17@gmail.com> - 1.11.7.1-0.2
+- Update to 1.11.7.1-RC1.
+
 * Thu Aug 06 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 1.11.7.0-0.1
 - Update to 1.11.7.0-beta1
 
