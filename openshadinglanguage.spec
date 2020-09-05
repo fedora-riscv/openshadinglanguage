@@ -1,13 +1,13 @@
 # Required for the plugin directory name, see https://github.com/OpenImageIO/oiio/issues/2583
 %global oiio_major_minor_ver %(rpm -q --queryformat='%%{version}' OpenImageIO-devel | cut -d . -f 1-2)
-%global prerelease -RC1
+#%%global prerelease -RC1
 
 # Force out of source tree build
 %undefine __cmake_in_source_build
 
 Name:           openshadinglanguage
-Version:        1.11.7.1
-Release:        0.2%{?dist}
+Version:        1.11.7.3
+Release:        1%{?dist}
 Summary:        Advanced shading language for production GI renderers
 
 License:        BSD
@@ -35,7 +35,7 @@ BuildRequires:  pkgconfig(Qt5)
 BuildRequires:  pkgconfig(zlib)
 
 # 64 bit only
-ExcludeArch:    i686 armv7hl
+ExclusiveArch:  x86_64 aarch64 ppc64le s390x
 
 %description
 Open Shading Language (OSL) is a small but rich language for programmable
@@ -165,7 +165,7 @@ mkdir %{buildroot}%{_libdir}/OpenImageIO-%{oiio_major_minor_ver}
 mv %{buildroot}%{_libdir}/osl.imageio.so %{buildroot}%{_libdir}/OpenImageIO-%{oiio_major_minor_ver}/
 
 %files
-%license LICENSE
+%license LICENSE.md
 %doc CHANGES.md CONTRIBUTING.md README.md
 %{_bindir}/oslc
 %{_bindir}/oslinfo
@@ -190,12 +190,12 @@ mv %{buildroot}%{_libdir}/osl.imageio.so %{buildroot}%{_libdir}/OpenImageIO-%{oi
 %{_datadir}/%{name}/shaders/*.h
 
 %files -n OpenImageIO-plugin-osl
-%license LICENSE
+%license LICENSE.md
 %dir %{_libdir}/OpenImageIO-%{oiio_major_minor_ver}/
 %{_libdir}/OpenImageIO-%{oiio_major_minor_ver}/osl.imageio.so
    
 %files libs
-%license LICENSE
+%license LICENSE.md
 %{_libdir}/libosl*.so.1*
 %if 0%{?fedora} < 32
 %{_libdir}/osl*.so.1*
@@ -213,6 +213,9 @@ mv %{buildroot}%{_libdir}/osl.imageio.so %{buildroot}%{_libdir}/OpenImageIO-%{oi
 %{python3_sitearch}/oslquery.so
 
 %changelog
+* Sat Sep 05 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 1.11.7.3-1
+- Update to 1.11.7.3
+
 * Fri Sep 04 2020 Richard Shaw <hobbes1069@gmail.com> - 1.11.7.1-0.2
 - Rebuild for OpenImageIO 2.2.
 
