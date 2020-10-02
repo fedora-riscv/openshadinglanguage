@@ -7,7 +7,7 @@
 
 Name:           openshadinglanguage
 Version:        1.11.7.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Advanced shading language for production GI renderers
 
 License:        BSD
@@ -213,6 +213,9 @@ mv %{buildroot}%{_libdir}/osl.imageio.so %{buildroot}%{_libdir}/OpenImageIO-%{oi
 %{python3_sitearch}/oslquery.so
 
 %changelog
+* Fri Oct 02 2020 Richard Shaw <hobbes1069@gmail.com> - 1.11.7.3-2
+- Rebuild for OpenImageIO 2.2.
+
 * Sat Sep 05 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 1.11.7.3-1
 - Update to 1.11.7.3
 
