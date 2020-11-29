@@ -6,7 +6,7 @@
 %undefine __cmake_in_source_build
 
 Name:           openshadinglanguage
-Version:        1.11.8.0
+Version:        1.11.9.0
 Release:        1%{?dist}
 Summary:        Advanced shading language for production GI renderers
 
@@ -146,16 +146,13 @@ sed -i -e "s/COMMAND python/COMMAND python3/" $(find . -iname CMakeLists.txt)
    -DCMAKE_INSTALL_DOCDIR:PATH=%{_docdir}/%{name} \
    -DCMAKE_SKIP_RPATH=TRUE \
    -DCMAKE_SKIP_INSTALL_RPATH=YES \
-   -DENABLERTTI=ON \
    -DOSL_BUILD_MATERIALX:BOOL=ON \
    -DOSL_SHADER_INSTALL_DIR:PATH=%{_datadir}/%{name}/shaders/ \
+   -Dpartio_DIR=%{_prefix} \
    -DPARTIO_INCLUDE_DIR=%{_includedir} \
    -DPARTIO_LIBRARIES=%{_libdir} \
-   -DPYTHON_INCLUDE_PATH=%{_includedir} \
    -DPYTHON_VERSION=%{python3_version} \
-   -DSTOP_ON_WARNING=OFF \
-   -DUSE_BOOST_WAVE=ON 
-   
+   -DSTOP_ON_WARNING=OFF
 %cmake_build
 
 %install
@@ -214,6 +211,9 @@ mv %{buildroot}%{_libdir}/osl.imageio.so %{buildroot}%{_libdir}/OpenImageIO-%{oi
 %{python3_sitearch}/oslquery.so
 
 %changelog
+* Thu Oct 01 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 1.11.9.0-1
+- Update to 1.11.9.0
+
 * Thu Oct 01 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 1.11.8.0-1
 - Update to 1.11.8.0
 
