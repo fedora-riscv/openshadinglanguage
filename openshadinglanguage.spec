@@ -6,7 +6,7 @@
 %undefine __cmake_in_source_build
 
 Name:           openshadinglanguage
-Version:        1.11.9.0
+Version:        1.11.10.0
 Release:        1%{?dist}
 Summary:        Advanced shading language for production GI renderers
 
@@ -211,6 +211,9 @@ mv %{buildroot}%{_libdir}/osl.imageio.so %{buildroot}%{_libdir}/OpenImageIO-%{oi
 %{python3_sitearch}/oslquery.so
 
 %changelog
+* Wed Dec 02 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 1.11.10.0-1
+- Update to 1.11.10.0
+
 * Thu Oct 01 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 1.11.9.0-1
 - Update to 1.11.9.0
 
