@@ -6,7 +6,7 @@
 %undefine __cmake_in_source_build
 
 Name:           openshadinglanguage
-Version:        1.11.7.3
+Version:        1.11.10.0
 Release:        2%{?dist}
 Summary:        Advanced shading language for production GI renderers
 
@@ -146,15 +146,13 @@ sed -i -e "s/COMMAND python/COMMAND python3/" $(find . -iname CMakeLists.txt)
    -DCMAKE_INSTALL_DOCDIR:PATH=%{_docdir}/%{name} \
    -DCMAKE_SKIP_RPATH=TRUE \
    -DCMAKE_SKIP_INSTALL_RPATH=YES \
-   -DENABLERTTI=ON \
    -DOSL_BUILD_MATERIALX:BOOL=ON \
    -DOSL_SHADER_INSTALL_DIR:PATH=%{_datadir}/%{name}/shaders/ \
-   -Dpartio_DIR=%{_libdir} \
-   -DPYTHON_INCLUDE_PATH=%{_includedir} \
+   -Dpartio_DIR=%{_prefix} \
+   -DPARTIO_INCLUDE_DIR=%{_includedir} \
+   -DPARTIO_LIBRARIES=%{_libdir} \
    -DPYTHON_VERSION=%{python3_version} \
-   -DSTOP_ON_WARNING=OFF \
-   -DUSE_BOOST_WAVE=ON 
-   
+   -DSTOP_ON_WARNING=OFF
 %cmake_build
 
 %install
@@ -213,8 +211,20 @@ mv %{buildroot}%{_libdir}/osl.imageio.so %{buildroot}%{_libdir}/OpenImageIO-%{oi
 %{python3_sitearch}/oslquery.so
 
 %changelog
-* Fri Oct 02 2020 Richard Shaw <hobbes1069@gmail.com> - 1.11.7.3-2
-- Rebuild for OpenImageIO 2.2.
+* Fri Dec 04 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 1.11.10.0-2
+- Rebuild for Partio 1.13.2
+
+* Wed Dec 02 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 1.11.10.0-1
+- Update to 1.11.10.0
+
+* Thu Oct 01 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 1.11.9.0-1
+- Update to 1.11.9.0
+
+* Thu Oct 01 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 1.11.8.0-1
+- Update to 1.11.8.0
+
+* Sun Sep 13 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 1.11.7.3-2
+- Rebuild for Partio 1.13.0
 
 * Sat Sep 05 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 1.11.7.3-1
 - Update to 1.11.7.3
