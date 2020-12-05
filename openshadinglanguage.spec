@@ -1,24 +1,24 @@
 # Required for the plugin directory name, see https://github.com/OpenImageIO/oiio/issues/2583
 %global oiio_major_minor_ver %(rpm -q --queryformat='%%{version}' OpenImageIO-devel | cut -d . -f 1-2)
-%global prerelease -beta1
+#%%global prerelease -RC1
 
 # Force out of source tree build
 %undefine __cmake_in_source_build
 
 Name:           openshadinglanguage
-Version:        1.11.7.0
-Release:        0.1%{?dist}
+Version:        1.11.10.0
+Release:        2%{?dist}
 Summary:        Advanced shading language for production GI renderers
 
 License:        BSD
 URL:            https://github.com/imageworks/OpenShadingLanguage
 Source:         %{url}/archive/Release-%{version}%{?prerelease}.tar.gz
 
-BuildRequires:	bison
+BuildRequires:  bison
 BuildRequires:  boost-devel >= 1.55
 BuildRequires:  clang-devel
 BuildRequires:  cmake
-BuildRequires:	flex
+BuildRequires:  flex
 BuildRequires:  gcc-c++
 BuildRequires:  llvm-devel
 BuildRequires:  partio-devel
@@ -31,13 +31,11 @@ BuildRequires:  pkgconfig(OpenEXR)
 BuildRequires:  pkgconfig(pugixml)
 %endif
 
-BuildRequires:	pkgconfig(Qt5)
-# Compression
+BuildRequires:  pkgconfig(Qt5)
 BuildRequires:  pkgconfig(zlib)
 
-# Build failed on armhfp
-# Exclude x86 architecture as well
-ExcludeArch:    i686 armv7hl
+# 64 bit only
+ExclusiveArch:  x86_64 aarch64 ppc64le s390x
 
 %description
 Open Shading Language (OSL) is a small but rich language for programmable
@@ -132,7 +130,7 @@ developing applications that use %{name}.
 Summary:        %{summary}
 License:        BSD
 BuildRequires:  cmake(pybind11)
-BuildRequires:	pkgconfig(python3)
+BuildRequires:    pkgconfig(python3)
 
 %description    -n python3-%{name}
 %{_description}
@@ -148,15 +146,13 @@ sed -i -e "s/COMMAND python/COMMAND python3/" $(find . -iname CMakeLists.txt)
    -DCMAKE_INSTALL_DOCDIR:PATH=%{_docdir}/%{name} \
    -DCMAKE_SKIP_RPATH=TRUE \
    -DCMAKE_SKIP_INSTALL_RPATH=YES \
-   -DENABLERTTI=ON \
    -DOSL_BUILD_MATERIALX:BOOL=ON \
    -DOSL_SHADER_INSTALL_DIR:PATH=%{_datadir}/%{name}/shaders/ \
-   -Dpartio_DIR=%{_libdir} \
-   -DPYTHON_INCLUDE_PATH=%{_includedir} \
+   -Dpartio_DIR=%{_prefix} \
+   -DPARTIO_INCLUDE_DIR=%{_includedir} \
+   -DPARTIO_LIBRARIES=%{_libdir} \
    -DPYTHON_VERSION=%{python3_version} \
-   -DSTOP_ON_WARNING=OFF \
-   -DUSE_BOOST_WAVE=ON 
-   
+   -DSTOP_ON_WARNING=OFF
 %cmake_build
 
 %install
@@ -167,7 +163,7 @@ mkdir %{buildroot}%{_libdir}/OpenImageIO-%{oiio_major_minor_ver}
 mv %{buildroot}%{_libdir}/osl.imageio.so %{buildroot}%{_libdir}/OpenImageIO-%{oiio_major_minor_ver}/
 
 %files
-%license LICENSE
+%license LICENSE.md
 %doc CHANGES.md CONTRIBUTING.md README.md
 %{_bindir}/oslc
 %{_bindir}/oslinfo
@@ -192,12 +188,12 @@ mv %{buildroot}%{_libdir}/osl.imageio.so %{buildroot}%{_libdir}/OpenImageIO-%{oi
 %{_datadir}/%{name}/shaders/*.h
 
 %files -n OpenImageIO-plugin-osl
-%license LICENSE
+%license LICENSE.md
 %dir %{_libdir}/OpenImageIO-%{oiio_major_minor_ver}/
 %{_libdir}/OpenImageIO-%{oiio_major_minor_ver}/osl.imageio.so
    
 %files libs
-%license LICENSE
+%license LICENSE.md
 %{_libdir}/libosl*.so.1*
 %if 0%{?fedora} < 32
 %{_libdir}/osl*.so.1*
@@ -215,6 +211,30 @@ mv %{buildroot}%{_libdir}/osl.imageio.so %{buildroot}%{_libdir}/OpenImageIO-%{oi
 %{python3_sitearch}/oslquery.so
 
 %changelog
+* Fri Dec 04 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 1.11.10.0-2
+- Rebuild for Partio 1.13.2
+
+* Wed Dec 02 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 1.11.10.0-1
+- Update to 1.11.10.0
+
+* Thu Oct 01 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 1.11.9.0-1
+- Update to 1.11.9.0
+
+* Thu Oct 01 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 1.11.8.0-1
+- Update to 1.11.8.0
+
+* Sun Sep 13 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 1.11.7.3-2
+- Rebuild for Partio 1.13.0
+
+* Sat Sep 05 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 1.11.7.3-1
+- Update to 1.11.7.3
+
+* Fri Sep 04 2020 Richard Shaw <hobbes1069@gmail.com> - 1.11.7.1-0.2
+- Rebuild for OpenImageIO 2.2.
+
+* Fri Aug 21 2020 Simone Caronni <negativo17@gmail.com> - 1.11.7.1-0.2
+- Update to 1.11.7.1-RC1.
+
 * Thu Aug 06 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 1.11.7.0-0.1
 - Update to 1.11.7.0-beta1
 
