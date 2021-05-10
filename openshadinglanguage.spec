@@ -7,7 +7,7 @@
 
 Name:           openshadinglanguage
 Version:        1.11.10.0
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Advanced shading language for production GI renderers
 
 License:        BSD
@@ -211,6 +211,9 @@ mv %{buildroot}%{_libdir}/osl.imageio.so %{buildroot}%{_libdir}/OpenImageIO-%{oi
 %{python3_sitearch}/oslquery.so
 
 %changelog
+* Mon May 10 2021 Jonathan Wakely <jwakely@redhat.com> - 1.11.10.0-10
+- Rebuilt for removed libstdc++ symbols (#1937698)
+
 * Tue Mar 30 2021 Jonathan Wakely <jwakely@redhat.com> - 1.11.10.0-9
 - Rebuilt for removed libstdc++ symbol (#1937698)
 
