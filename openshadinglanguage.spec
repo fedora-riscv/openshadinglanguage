@@ -14,13 +14,14 @@ License:        BSD
 URL:            https://github.com/imageworks/OpenShadingLanguage
 Source:         %{url}/archive/Release-%{version}%{?prerelease}.tar.gz
 
-BuildRequires:  bison
+BuildRequires:  bison   fe
 BuildRequires:  boost-devel >= 1.55
 BuildRequires:  clang-devel
 BuildRequires:  cmake
 BuildRequires:  flex
 BuildRequires:  gcc-c++
 BuildRequires:  llvm-devel
+BuildRequires:  OpenImageIO-utils
 BuildRequires:  partio-devel
 BuildRequires:  pkgconfig(IlmBase)
 BuildRequires:  pkgconfig(OpenImageIO) >= 2.0
@@ -213,6 +214,7 @@ mv %{buildroot}%{_libdir}/osl.imageio.so %{buildroot}%{_libdir}/OpenImageIO-%{oi
 %changelog
 * Tue May 11 2021 Luya Tshimbalanga <luya@fedoraproject.org> - 1.11.14.0-2
 - Rebuild for OpenImageIO 2.2.14
+- Add OpenImageIO-utils dependency
 
 * Tue May 11 2021 Luya Tshimbalanga <luya@fedoraproject.org> - 1.11.14.0-1
 - Update to 1.11.14.0
