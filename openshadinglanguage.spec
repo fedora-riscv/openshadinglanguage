@@ -14,7 +14,7 @@ License:        BSD
 URL:            https://github.com/imageworks/OpenShadingLanguage
 Source:         %{url}/archive/Release-%{version}%{?prerelease}.tar.gz
 
-BuildRequires:  bison   fe
+BuildRequires:  bison
 BuildRequires:  boost-devel >= 1.55
 BuildRequires:  clang-devel
 BuildRequires:  cmake
