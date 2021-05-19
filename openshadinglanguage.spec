@@ -3,11 +3,11 @@
 #%%global prerelease -RC1
 
 # Force out of source tree build
-%undefine __cmake_in_source_build
+%undefine       __cmake_in_source_build
 
 Name:           openshadinglanguage
-Version:        1.11.10.0
-Release:        10%{?dist}
+Version:        1.11.14.0
+Release:        2%{?dist}
 Summary:        Advanced shading language for production GI renderers
 
 License:        BSD
@@ -130,7 +130,7 @@ developing applications that use %{name}.
 Summary:        %{summary}
 License:        BSD
 BuildRequires:  cmake(pybind11)
-BuildRequires:    pkgconfig(python3)
+BuildRequires:  pkgconfig(python3)
 
 %description    -n python3-%{name}
 %{_description}
@@ -142,7 +142,7 @@ sed -i -e "s/COMMAND python/COMMAND python3/" $(find . -iname CMakeLists.txt)
 
 %build
 %cmake \
-   -DCMAKE_CXX_STANDARD=14 \
+   -DCMAKE_CXX_STANDARD=17 \
    -DCMAKE_INSTALL_DOCDIR:PATH=%{_docdir}/%{name} \
    -DCMAKE_SKIP_RPATH=TRUE \
    -DCMAKE_SKIP_INSTALL_RPATH=YES \
@@ -152,7 +152,7 @@ sed -i -e "s/COMMAND python/COMMAND python3/" $(find . -iname CMakeLists.txt)
    -DPARTIO_INCLUDE_DIR=%{_includedir} \
    -DPARTIO_LIBRARIES=%{_libdir} \
    -DPYTHON_VERSION=%{python3_version} \
-   -DSTOP_ON_WARNING=OFF
+   -DSTOP_ON_WARNING=OFF 
 %cmake_build
 
 %install
@@ -211,6 +211,13 @@ mv %{buildroot}%{_libdir}/osl.imageio.so %{buildroot}%{_libdir}/OpenImageIO-%{oi
 %{python3_sitearch}/oslquery.so
 
 %changelog
+* Tue May 11 2021 Luya Tshimbalanga <luya@fedoraproject.org> - 1.11.14.0-2
+- Rebuild for OpenImageIO 2.2.14
+
+* Tue May 11 2021 Luya Tshimbalanga <luya@fedoraproject.org> - 1.11.14.0-1
+- Update to 1.11.14.0
+- Switch to c++17
+
 * Mon May 10 2021 Jonathan Wakely <jwakely@redhat.com> - 1.11.10.0-10
 - Rebuilt for removed libstdc++ symbols (#1937698)
 
