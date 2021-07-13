@@ -6,7 +6,6 @@ Name:           openshadinglanguage
 Version:        1.11.14.2
 Release:        %autorelease
 Summary:        Advanced shading language for production GI renderers
-
 License:        BSD
 URL:            https://github.com/imageworks/OpenShadingLanguage
 Source:         %{url}/archive/Release-%{version}%{?prerelease}.tar.gz
