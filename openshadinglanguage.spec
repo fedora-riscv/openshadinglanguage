@@ -20,15 +20,13 @@ BuildRequires:  llvm-devel
 BuildRequires:  OpenImageIO-utils
 # Needed for OSL pointclound functions
 BuildRequires:  partio-devel
+%if 0%{?fedora} < 34
 BuildRequires:  pkgconfig(IlmBase) >= 2.0
-#BuildRequires:  pkgconfig(Imath)
-BuildRequires:  pkgconfig(OpenImageIO) >= 2.0
-%if 0%{?fedora} < 32
-BuildRequires:  pugixml-devel
-BuildRequires:  pkgconfig(OpenEXR)
 %else
-BuildRequires:  pkgconfig(pugixml)
+BuildRequires:  pkgconfig(Imath)
 %endif
+BuildRequires:  pkgconfig(OpenImageIO) >= 2.0
+BuildRequires:  pkgconfig(pugixml)
 
 # For osltoy
 BuildRequires:  pkgconfig(Qt5) >= 5.6

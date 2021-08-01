@@ -1,3 +1,12 @@
+* Sun Aug 01 2021 Luya Tshimbalanga <luya@fedoraproject.org> 1.11.14.2-4
+- Drop EOL Fedora 32 support 
+
+* Thu Jul 22 2021 Fedora Release Engineering <releng@fedoraproject.org> 1.11.14.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_35_Mass_Rebuild
+
+* Tue Jul 13 2021 Luya Tshimbalanga <luya@fedoraproject.org> 1.11.14.2-2
+- Update to 1.11.14.2
+
 * Fri Jun 04 2021 Python Maint <python-maint@redhat.com> - 1.11.14.0-3
 - Rebuilt for Python 3.10
 
@@ -82,3 +91,4 @@ opens
 
 * Mon Feb 17 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 1.10.9-1
 - Initial build
+
