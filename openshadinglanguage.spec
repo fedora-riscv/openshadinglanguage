@@ -2,14 +2,10 @@
 %global oiio_major_minor_ver %(rpm -q --queryformat='%%{version}' OpenImageIO-devel | cut -d . -f 1-2)
 #%%global prerelease -RC1
 
-# Force out of source tree build
-%undefine       __cmake_in_source_build
-
 Name:           openshadinglanguage
-Version:        1.11.14.0
-Release:        2%{?dist}
+Version:        1.11.14.2
+Release:        %autorelease
 Summary:        Advanced shading language for production GI renderers
-
 License:        BSD
 URL:            https://github.com/imageworks/OpenShadingLanguage
 Source:         %{url}/archive/Release-%{version}%{?prerelease}.tar.gz
@@ -22,17 +18,18 @@ BuildRequires:  flex
 BuildRequires:  gcc-c++
 BuildRequires:  llvm-devel
 BuildRequires:  OpenImageIO-utils
+# Needed for OSL pointclound functions
 BuildRequires:  partio-devel
-BuildRequires:  pkgconfig(IlmBase)
-BuildRequires:  pkgconfig(OpenImageIO) >= 2.0
-%if 0%{?fedora} < 32
-BuildRequires:  pugixml-devel
-BuildRequires:  pkgconfig(OpenEXR)
+%if 0%{?fedora} < 34
+BuildRequires:  pkgconfig(IlmBase) >= 2.0
 %else
-BuildRequires:  pkgconfig(pugixml)
+BuildRequires:  pkgconfig(Imath)
 %endif
+BuildRequires:  pkgconfig(OpenImageIO) >= 2.0
+BuildRequires:  pkgconfig(pugixml)
 
-BuildRequires:  pkgconfig(Qt5)
+# For osltoy
+BuildRequires:  pkgconfig(Qt5) >= 5.6
 BuildRequires:  pkgconfig(zlib)
 
 # 64 bit only
@@ -132,6 +129,7 @@ Summary:        %{summary}
 License:        BSD
 BuildRequires:  cmake(pybind11)
 BuildRequires:  pkgconfig(python3)
+BuildRequires:  python3dist(numpy)
 
 %description    -n python3-%{name}
 %{_description}
@@ -212,84 +210,4 @@ mv %{buildroot}%{_libdir}/osl.imageio.so %{buildroot}%{_libdir}/OpenImageIO-%{oi
 %{python3_sitearch}/oslquery.so
 
 %changelog
-* Tue May 11 2021 Luya Tshimbalanga <luya@fedoraproject.org> - 1.11.14.0-2
-- Rebuild for OpenImageIO 2.2.14
-- Add OpenImageIO-utils dependency
-
-* Tue May 11 2021 Luya Tshimbalanga <luya@fedoraproject.org> - 1.11.14.0-1
-- Update to 1.11.14.0
-- Switch to c++17
-
-* Mon May 10 2021 Jonathan Wakely <jwakely@redhat.com> - 1.11.10.0-10
-- Rebuilt for removed libstdc++ symbols (#1937698)
-
-* Tue Mar 30 2021 Jonathan Wakely <jwakely@redhat.com> - 1.11.10.0-9
-- Rebuilt for removed libstdc++ symbol (#1937698)
-
-* Tue Jan 26 2021 Fedora Release Engineering <releng@fedoraproject.org> - 1.11.10.0-8
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_34_Mass_Rebuild
-
-* Sun Jan 24 2021 Jonathan Wakely <jwakely@redhat.com> - 1.11.10.0-7
-- Rebuilt for Boost 1.75
-
-* Fri Jan 22 2021 Tom Stellard <tstellar@redhat.com> - 1.11.10.0-6
-- Rebuild for clang-11.1.0
-
-* Mon Jan  4 2021 Luya Tshimbalanga <luya@fedoraproject.org> - 1.11.10.0-5
-- Rebuild for OpenImageIO-2.2.10.0
-
-* Fri Jan 01 2021 Richard Shaw <hobbes1069@gmail.com> - 1.11.10.0-4
-- Rebuild for OpenEXR 2.5.3.
-
-* Tue Dec 08 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 1.11.10.0-3
-- Rebuild for Partio 1.14.0
-
-* Fri Dec 04 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 1.11.10.0-2
-- Rebuild for Partio 1.13.2
-
-* Wed Dec 02 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 1.11.10.0-1
-- Update to 1.11.10.0
-
-* Thu Oct 01 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 1.11.9.0-1
-- Update to 1.11.9.0
-
-* Thu Oct 01 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 1.11.8.0-1
-- Update to 1.11.8.0
-
-* Sun Sep 13 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 1.11.7.3-2
-- Rebuild for Partio 1.13.0
-
-* Sat Sep 05 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 1.11.7.3-1
-- Update to 1.11.7.3
-
-* Fri Sep 04 2020 Richard Shaw <hobbes1069@gmail.com> - 1.11.7.1-0.2
-- Rebuild for OpenImageIO 2.2.
-
-* Fri Aug 21 2020 Simone Caronni <negativo17@gmail.com> - 1.11.7.1-0.2
-- Update to 1.11.7.1-RC1.
-
-* Thu Aug 06 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 1.11.7.0-0.1
-- Update to 1.11.7.0-beta1
-
-* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11.6.0-6
-- Second attempt - Rebuilt for
-  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
-
-* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11.6.0-5
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
-
-* Wed Jul 22 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 1.11.6.0-4
-- Set library condition for Fedora 31 
-
-* Mon Jul 20 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 1.11.6.0-3
-- Enable partio
-
-* Fri Jul 17 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 1.11.6.0-2
-- Fix spec based on review (#1856589)
-
-* Sun Jul 12 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 1.11.6.0-1
-- Snapshot release
-- Use OpenSUSE spec
-
-* Mon Feb 17 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 1.10.9-1
-- Initial build
+%autochangelog
