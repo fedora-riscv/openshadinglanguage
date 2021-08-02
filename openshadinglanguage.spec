@@ -132,7 +132,7 @@ BuildRequires:  pkgconfig(python3)
 BuildRequires:  python3dist(numpy)
 
 %description    -n python3-%{name}
-%{_description}
+%{description}
 
 %prep
 %autosetup -n OpenShadingLanguage-Release-%{version}%{?prerelease}

@@ -1,3 +1,7 @@
+* Mon Aug 02 2021 Luya Tshimbalanga <luya@fedoraproject.org> 1.11.14.2-5
+- Fix description for python3 subpackage (#1988876)
+- Resolves rhbz#1988876
+
 * Sun Aug 01 2021 Luya Tshimbalanga <luya@fedoraproject.org> 1.11.14.2-4
 - Drop EOL Fedora 32 support 
 
@@ -91,4 +95,5 @@ opens
 
 * Mon Feb 17 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 1.10.9-1
 - Initial build
+
 
