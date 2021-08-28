@@ -20,7 +20,7 @@ BuildRequires:  llvm-devel
 BuildRequires:  OpenImageIO-utils
 # Needed for OSL pointclound functions
 BuildRequires:  partio-devel
-%if 0%{?fedora} < 34
+%if 0%{?fedora} < 35
 BuildRequires:  pkgconfig(IlmBase) >= 2.0
 %else
 BuildRequires:  pkgconfig(Imath)
