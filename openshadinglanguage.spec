@@ -1,35 +1,46 @@
 # Required for the plugin directory name, see https://github.com/OpenImageIO/oiio/issues/2583
 %global oiio_major_minor_ver %(rpm -q --queryformat='%%{version}' OpenImageIO-devel | cut -d . -f 1-2)
 #%%global prerelease -RC1
+%bcond_without	materialx
+%bcond_without  qt5
 
 Name:           openshadinglanguage
-Version:        1.11.14.2
+Version:        1.11.15.0
 Release:        %autorelease
 Summary:        Advanced shading language for production GI renderers
 License:        BSD
 URL:            https://github.com/imageworks/OpenShadingLanguage
 Source:         %{url}/archive/Release-%{version}%{?prerelease}.tar.gz
+# Fix compatilibity for llvm 12 and up
+# https://github.com/AcademySoftwareFoundation/OpenShadingLanguage/pull/1402
+Patch:          osl-llvm13.diff
 
 BuildRequires:  bison
 BuildRequires:  boost-devel >= 1.55
-BuildRequires:  clang-devel
-BuildRequires:  cmake
+BuildRequires:  clang-devel > 7
+BuildRequires:  cmake >= 3.12
 BuildRequires:  flex
-BuildRequires:  gcc-c++
-BuildRequires:  llvm-devel
-BuildRequires:  OpenImageIO-utils
+BuildRequires:  gcc-c++ >= 6.1
+BuildRequires:  llvm-devel > 7
 # Needed for OSL pointclound functions
 BuildRequires:  partio-devel
-%if 0%{?fedora} < 34
+%if 0%{?fedora} < 35
 BuildRequires:  pkgconfig(IlmBase) >= 2.0
 %else
-BuildRequires:  pkgconfig(Imath)
+BuildRequires:  pkgconfig(Imath) >= 2.0
 %endif
-BuildRequires:  pkgconfig(OpenImageIO) >= 2.0
+BuildRequires:  pkgconfig(OpenImageIO) >= 2.1
 BuildRequires:  pkgconfig(pugixml)
 
 # For osltoy
+%if %{with qt5}
+# Broken in Fedora 34
+# /usr/bin/ld: /usr/lib64/libLLVM-12.so: error adding symbols: DSO missing from command line
+# https://bugzilla.redhat.com/show_bug.cgi?id=2001177
+%if 0%{?fedora} != 34
 BuildRequires:  pkgconfig(Qt5) >= 5.6
+%endif
+%endif
 BuildRequires:  pkgconfig(zlib)
 
 # 64 bit only
@@ -52,6 +63,7 @@ in advanced renderers and other applications, ideal for describing
 materials, lights, displacement, and pattern generation.
 This package contains documentation.
 
+%if %{with materialx}
 %package MaterialX-shaders-source
 Summary:        MaterialX shader nodes
 License:        BSD
@@ -65,6 +77,7 @@ in advanced renderers and other applications, ideal for describing
 materials, lights, displacement, and pattern generation.
 
 This package contains the code for the MaterialX shader nodes.
+%endif
 
 %package example-shaders-source
 Summary:        OSL shader examples
@@ -135,7 +148,7 @@ BuildRequires:  python3dist(numpy)
 %{description}
 
 %prep
-%autosetup -n OpenShadingLanguage-Release-%{version}%{?prerelease}
+%autosetup -p1 -n OpenShadingLanguage-Release-%{version}%{?prerelease}
 # Use python3 binary instead of unversioned python
 sed -i -e "s/COMMAND python/COMMAND python3/" $(find . -iname CMakeLists.txt)
 
@@ -145,7 +158,9 @@ sed -i -e "s/COMMAND python/COMMAND python3/" $(find . -iname CMakeLists.txt)
    -DCMAKE_INSTALL_DOCDIR:PATH=%{_docdir}/%{name} \
    -DCMAKE_SKIP_RPATH=TRUE \
    -DCMAKE_SKIP_INSTALL_RPATH=YES \
+%if %{with materialx}
    -DOSL_BUILD_MATERIALX:BOOL=ON \
+%endif
    -DOSL_SHADER_INSTALL_DIR:PATH=%{_datadir}/%{name}/shaders/ \
    -Dpartio_DIR=%{_prefix} \
    -DPARTIO_INCLUDE_DIR=%{_includedir} \
@@ -166,7 +181,11 @@ mv %{buildroot}%{_libdir}/osl.imageio.so %{buildroot}%{_libdir}/OpenImageIO-%{oi
 %doc CHANGES.md CONTRIBUTING.md README.md
 %{_bindir}/oslc
 %{_bindir}/oslinfo
+%if %{with qt5}
+%if 0%{?fedora} != 34
 %{_bindir}/osltoy
+%endif
+%endif
 %{_bindir}/testrender
 %{_bindir}/testshade
 %{_bindir}/testshade_dso
@@ -174,8 +193,10 @@ mv %{buildroot}%{_libdir}/osl.imageio.so %{buildroot}%{_libdir}/OpenImageIO-%{oi
 %files doc
 %doc %{_docdir}/%{name}/
 
+%if %{with materialx}
 %files MaterialX-shaders-source
 %{_datadir}/%{name}/shaders/MaterialX
+%endif
 
 %files example-shaders-source
 %{_datadir}/%{name}/shaders/*.osl
