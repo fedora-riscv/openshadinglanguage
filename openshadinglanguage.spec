@@ -5,15 +5,12 @@
 %bcond_without  qt5
 
 Name:           openshadinglanguage
-Version:        1.11.15.0
+Version:        1.11.16.0
 Release:        %autorelease
 Summary:        Advanced shading language for production GI renderers
 License:        BSD
 URL:            https://github.com/imageworks/OpenShadingLanguage
-Source:         %{url}/archive/Release-%{version}%{?prerelease}.tar.gz
-# Fix compatilibity for llvm 12 and up
-# https://github.com/AcademySoftwareFoundation/OpenShadingLanguage/pull/1402
-Patch:          osl-llvm13.diff
+Source0:         %{url}/archive/Release-%{version}%{?prerelease}.tar.gz
 
 BuildRequires:  bison
 BuildRequires:  boost-devel >= 1.55
