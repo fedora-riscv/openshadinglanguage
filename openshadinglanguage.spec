@@ -12,6 +12,27 @@ License:        BSD
 URL:            https://github.com/imageworks/OpenShadingLanguage
 Source0:        %{url}/archive/Release-%{version}%{?prerelease}.tar.gz
 
+# Backport upstream commit 9cfca9397b974f00bcc0915a4661be19e2e6e820:
+#
+#   Support for LLVM 14 (#1492)
+#
+#   API changes we had to take into account:
+#   * TargetRegistry.h location
+#   * No more DisableTailCalls field in PassManagerBuilder.
+#
+#   Needed to update the ref image for render-microfacet test, some sparklies
+#   changed.  Looks like the new LLVM probably JITs to ever so slightly
+#   different math code, tickling some LSB differences that at 1 sample per
+#   pixel, results in some different sampling directions leading to fireflies.
+#   We decided to just commit a new ref image and move on.
+#
+#   Signed-off-by: Larry Gritz <lg@larrygritz.com>
+Patch:          0001-Support-for-LLVM-14-1492.patch
+
+# Required for %%autosetup -S git, which in turn is required to use a patch
+# from git containing a binary diff.
+BuildRequires:  git-core
+
 BuildRequires:  bison
 BuildRequires:  boost-devel >= 1.55
 BuildRequires:  clang-devel > 7
@@ -145,7 +166,7 @@ BuildRequires:  python3dist(numpy)
 %{description}
 
 %prep
-%autosetup -p1 -n OpenShadingLanguage-Release-%{version}%{?prerelease}
+%autosetup -p1 -n OpenShadingLanguage-Release-%{version}%{?prerelease} -S git
 # Use python3 binary instead of unversioned python
 sed -i -e "s/COMMAND python/COMMAND python3/" $(find . -iname CMakeLists.txt)
 
