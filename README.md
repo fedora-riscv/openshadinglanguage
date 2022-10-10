@@ -4,4 +4,6 @@ Open Shading Language (OSL) is a small but rich language for programmable shadin
 
 OSL was originally developed by Sony Pictures Imageworks for use in its in- house renderer used for feature film animation and visual effects, released as open source so it could be used by other visual effects and animation studios and rendering software vendors. Now it's the de facto standard shading language for VFX and animated features, used across the industry in many commercial and studio- proprietary renderers. Because of this, the work on OSL received an Academy Award for Technical Achievement in 2017.
 
-OSL is robust and production-proven, and has been used in films as diverse as "The Amazing Spider-Man," "Hotel Transylvania," "Edge of Tomorrow", "Ant Man", "Finding Dory," and many more. OSL support is in most leading renderers used for high-end VFX and animation work. For a full list of films and products, see the filmography.
+OSL is robust and production-proven, and has been used in films as diverse as "The Amazing Spider-Man," "Hotel Transylvania," "Edge of Tomorrow", "Ant Man", "Finding Dory," and many more. OSL support is in most leading renderers used for high-end VFX and animation work. For a full list of films and products, see the [filmography](https://github.com/AcademySoftwareFoundation/OpenShadingLanguage#where-osl-has-been-used).
+
+The OSL code is distributed under the "New/3-clause BSD" license, and the documentation under the Creative Commons Attribution 4.0 International License. 
